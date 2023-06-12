@@ -1,4 +1,4 @@
-import logo from '../images/__logo.svg';
+import logo from '../images/logo.svg';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
