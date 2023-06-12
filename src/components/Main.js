@@ -2,7 +2,7 @@ import React from 'react';
 import api from '../utils/Api';
 import Card from './Card';
 
-export default function Main (props) {
+export default function Main ({onEditProfile, onAddPlace, onEditAvatar, onCardClick}) {
   const [userName, setUserName] = React.useState('');
   const [userDescription, setUserDescription] = React.useState('');
   const [userAvatar, setUserAvatar] = React.useState('');
@@ -15,6 +15,7 @@ export default function Main (props) {
       setUserDescription(user.about);
       setUserAvatar(user.avatar);
     })
+    .catch((err) => console.log(err));
   },[]
   )
 
@@ -23,24 +24,25 @@ export default function Main (props) {
     .then((items) => {
       setCards(items);
     })
+    .catch((err) => console.log(err));
   }, [])
 
   return (
     <main className="content">
       <section className="profile">
-        <div className="profile__edit-avatar" onClick={props.onEditAvatar}>
+        <div className="profile__edit-avatar" onClick={onEditAvatar}>
           <img className="profile__avatar" alt="Аватарка" src={userAvatar} />
         </div>
         <div className="profile__heading">
           <h1 className="profile__title">{userName}</h1>
-          <button className="profile__edit-btn" type="button" aria-label="Редактировать профиль" onClick={props.onEditProfile}></button>
+          <button className="profile__edit-btn" type="button" aria-label="Редактировать профиль" onClick={onEditProfile}></button>
         </div>
         <p className="profile__subtitle">{userDescription}</p>
-        <button className="profile__add-btn" type="button" aria-label="Добавить место" onClick={props.onAddPlace}></button>
+        <button className="profile__add-btn" type="button" aria-label="Добавить место" onClick={onAddPlace}></button>
       </section>
       <section className="cards">
         {cards.map((card) => (
-          <Card key={card._id} card={card} onCardClick={props.onCardClick}/>
+          <Card key={card._id} card={card} onCardClick={onCardClick}/>
         ))
         }
       </section>
