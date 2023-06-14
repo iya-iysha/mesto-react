@@ -23,7 +23,7 @@ export default function Card ({card, onCardClick, onCardLike, onCardDelete}) {
   
   return (
     <div className="card">
-      <img className="card__image" src={card.link} onClick={handleClick} />
+      <img className="card__image" src={card.link} alt={card.name} onClick={handleClick} />
       <div className="card__caption">
         <h2 className="card__title">{card.name}</h2>
         <div className="card__heart-area">

@@ -4,10 +4,16 @@ import PopupWithForm from "./PopupWithForm";
 export default function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
   const nameRef = React.useRef();
   const linkRef = React.useRef();
+  
+  React.useEffect(() => {
+    nameRef.current.value = '';
+    linkRef.current.value = '';
+  }, [isOpen]);
 
   function handleAddPlaceSubmit(e) {
     e.preventDefault();
     onAddPlace(nameRef.current.value, linkRef.current.value);
+
   }
 
   return (
