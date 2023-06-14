@@ -2,11 +2,12 @@ import logo from '../images/logo.svg';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
-import PopupWithForm from './PopupWithFom';
+import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 import React from 'react';
 import api from '../utils/Api';
 import CurrentUserContext from '../contexts/CurrentUserContext';
+import EditProfilePopup from './EditProfilePopup';
 
 function App() {
   const [currentUser, setCurrentUser] = React.useState({});
@@ -43,6 +44,15 @@ function App() {
     .catch((err) => console.log(err));
   }
 
+  function handleUpdateUser(name, about) {
+    api.editUserInfo(name, about)
+    .then((user) => {
+      setCurrentUser(user);
+      closeAllPopups();
+    })
+    .catch((err) => console.log(err));
+  }
+
   React.useEffect(() => {
     api.getUserInfo()
     .then((user) => {
@@ -58,16 +68,7 @@ function App() {
           <Header logo={logo}/>
           <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} onCardClick={handleCardClick} onCardDelete={handleCardDelete} />
           <Footer />
-          <PopupWithForm name="edit-profile" title="Редактировать профиль" isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}>
-            <div className="popup__section">
-              <input type="text" className="popup__input popup__input_type_name" id="name-input" placeholder="Имя" name="title" required minLength="2" maxLength="40" />
-              <span className="popup__input-error name-input-error"></span>
-            </div>
-            <div className="popup__section">
-              <input type="text" className="popup__input popup__input_type_job" id="job-input" placeholder="О себе" name="subtitle" required minLength="2" maxLength="200" />
-              <span className="popup__input-error job-input-error"></span>
-            </div>
-          </PopupWithForm>
+          <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
           <PopupWithForm name="add-card" title="Новое место" isOpen={isAddPlacePopupOpen} onClose={closeAllPopups}>
             <div className="popup__section">
               <input type="text" className="popup__input popup__input_type_title" id="card-title" placeholder="Название" name="cardTitle" required minLength="2" maxLength="30" />
